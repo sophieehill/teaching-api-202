@@ -1,0 +1,433 @@
+---
+title: "Review Session 9"
+author: "Sophie Hill"
+date: "04/01/2022"
+output: 
+  ioslides_presentation:
+        incremental: true
+        transition: faster
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(broom)
+
+theme_set(theme_classic())
+
+load("RS9/hw2.RData")
+```
+
+## Agenda  {.larger}
+
+Practice for Quiz #3!
+
+*Causal estimands
+*Interpreting regression coefficients
+*Signing the bias
+*Causal inference with regression (Fixed effects, Difference-in-differences)
+
+## Causal estimands
+
+
+## Interpreting regression coefficients
+
+-   Different types of **outcome** variable (continuous, log-scale, binary)
+
+-   Different types of **predictor** (continuous, log-scale, binary, categorical, squared)
+
+-   **Simple** regression vs **multiple** regression
+
+-   **Interaction** terms
+
+## Example
+
+Let's work with the CCES survey data we used in Problem Set 2.
+
+For simplicity, let's focus on the 2020 data, subset to Democratic and Republican voters, and create a new binary variable indicating whether the respondent voted Democratic (1) or Republican (0).
+
+```{r}
+cces20 <- cces_pres %>% 
+  filter(year == 2020,
+         voted_pres_party %in% c("Democratic", "Republican")) %>% 
+  mutate(vote_dem = case_when(voted_pres_party=="Democratic" ~ 1,
+                              voted_pres_party=="Republican" ~ 0))
+```
+
+## Intercept-only model
+
+Let's start by estimating the simplest model of all: a linear model including *just* the intercept term.
+
+We can do this in R by including the number 1 in the RHS of the formula:
+
+```{r}
+mod0 <- lm(vote_dem ~ 1, data = cces20)
+tidy(mod0)
+```
+
+::: {.red2}
+Where does the intercept of 0.597 come from?
+:::
+
+## Intercept-only model
+
+It's just the mean of `vote_dem` in our sample!
+
+```{r}
+cces20 %>% 
+  summarize(mean_vote_dem = mean(vote_dem))
+```
+
+## Adding a binary predictor
+
+Now let's add a binary predictor to the model: `gender`.
+
+*Note: we don't need to keep using the number 1 to specify the intercept, R includes it by default.*
+
+```{r}
+mod1 <- lm(vote_dem ~ gender, data = cces20)
+tidy(mod1)
+```
+
+::: {.red2}
+The intercept has changed from 0.597 to 0.547. Why?
+:::
+
+## Adding a binary predictor
+
+Before, the intercept was the proportion of *all respondents* who voted Democratic.
+
+Now the intercept is the proportion of *males* who voted Democratic:
+
+```{r}
+cces20 %>% 
+  filter(gender == "Male") %>%
+  summarize(mean_vote_dem_male = mean(vote_dem))
+```
+
+::: {.red2}
+Why?
+:::
+
+## Predicted values  {.smaller}
+
+This is our sample regression model:
+
+$$
+\hat{Y}_i = 0.547 + (0.0889 \cdot Female_i)
+$$
+
+<br>
+
+For men:
+
+$$
+\hat{Y}_{men} = 0.547 + (0.0889 \cdot 0) = 0.547
+$$
+
+For women:
+
+$$
+\hat{Y}_{women} = 0.547 + (0.0889 \cdot 1) = 0.636
+$$
+
+So the mean of `vote_dem` among women is 0.636, and the coefficient on *Female* represents the **difference** between the mean of `vote_dem` among women vs men.
+
+## Statistical significance   {.smaller}
+
+If we have the coefficient and standard error, we can compute the $t$-statistic and the $p$-value.
+
+```{r echo=FALSE}
+tidy(mod1)
+```
+
+```{r}
+(0.08891878 - 0) / 0.004696622
+2 * pt(-abs(18.9325), df = nrow(cces20)-1 )
+```
+
+## Key takeaways
+
+-   For a categorical predictor variable, one category is "omitted". (This is also called the "reference category".)
+
+-   The coefficients represent the effect of being in a given category *versus being in the reference category.*
+
+-   So including a categorical variable with $n$ categories is equivalent to including $n-1$ dummy variables.
+
+## Adding a continuous variable  {.smaller}
+
+Let's include `age` alongside `gender` as a predictor in the model:
+
+```{r}
+mod2 <- lm(vote_dem ~ gender + age, data = cces20)
+tidy(mod2)
+```
+
+::: {.red2}
+How do we interpret the coefficient on age?
+:::
+
+A 1-unit increase in age is associated with a $100 \cdot 0.00481 = 0.481$ *decrease* in the predicted probability of voting Democratic.
+
+## Predicted values  {.smaller}
+
+What is the predicted probability of voting Democratic for a man aged 30? What about a woman aged 30?
+
+This is our sample regression model:
+
+$$
+\hat{Y}_i = 0.810 + (0.0768 \cdot Female_i) - (0.00481 \cdot Age_i)
+$$
+
+<br>
+
+Man aged 30:
+
+$$
+\hat{Y}_{man30} = 0.810 + (0.0768 \cdot 0) - (0.00481 \cdot 30) = 0.666
+$$
+
+Woman aged 30:
+
+$$
+\hat{Y}_{woman30} = 0.810 + (0.0768 \cdot 1) - (0.00481 \cdot 30) = 0.743
+$$
+
+## Interactions  {.smaller}
+
+Perhaps the effect of age varies by gender. To allow for this, we need to include an *interaction term* in our model, where the values of the two variables are multiplied together.
+
+In R, an interaction between `x` and `y` is written as `x*y` or, equivalently, `x + y + x:y`.
+
+```{r}
+mod3 <- lm(vote_dem ~ gender*age, data = cces20)
+tidy(mod3)
+```
+
+## Interactions  {.smaller}
+
+```{r echo = FALSE}
+mod3 <- lm(vote_dem ~ gender*age, data = cces20)
+tidy(mod3)
+```
+
+::: {.red2}
+How do we interpret the interaction term?
+:::
+
+The effect of being a women vs being a man, aged 30, is: $-0.0457 + (0.0022 \cdot 1 \cdot 30) = 0.023$
+
+The effect of being a women vs being a man, aged 60, is: $-0.0457 + (0.0022 \cdot 1 \cdot 60) = 0.092$
+
+Among 30-year-olds, women are **2.3 ppts** more like to vote Democratic than men.
+
+Among 60-year-olds, women are **9.2 ppts** more likely to vote Democratic than men.
+
+## Interactions  {.smaller}
+
+We can use the ggpredict() function from the ggeffects package to get a nice summary of the interaction effects:
+
+```{r}
+library(ggeffects)
+ggpredict(mod3, 
+          terms = c("gender", "age [30, 60]"))
+```
+
+## Non-linear relationships  {.smaller}
+
+Consider the relationship between political ideology and turnout.
+
+We might imagine that people with a stronger ideology (in either direction) will be more engaged in politics and hence more likely to turnout.
+
+```{r include = TRUE, eval = FALSE}
+cces20 %>% 
+  filter(ideo5!="Not Sure") %>%
+  group_by(ideo5) %>%
+  summarize(m = mean(voted, na.rm = TRUE)) %>%
+  ggplot(aes(x = ideo5, y = m, 
+             label = round(m, 2))) +
+  geom_col() +
+  geom_text(nudge_y = 0.04) +
+  labs(x = "Ideology", y = "prop voted", 
+       title = "Turnout by ideology") +
+  coord_flip()
+```
+
+## Non-linear relationships  {.smaller}
+
+```{r echo = FALSE}
+cces20 %>% 
+  filter(ideo5!="Not Sure") %>%
+  group_by(ideo5) %>%
+  summarize(m = mean(voted, na.rm = TRUE)) %>%
+  ggplot(aes(x = ideo5, y = m, 
+             label = round(m, 2))) +
+  geom_col() +
+  geom_text(nudge_y = 0.04) +
+  labs(x = "Ideology", y = "% voted", 
+       title = "Turnout by ideology") +
+  coord_flip()
+```
+
+## Non-linear relationships  {.smaller}
+
+To examine this, let's turn ideology into a numeric variable ranging from -2 (Very Liberal) to +2 (Very Conservative).
+
+```{r}
+cces20 <- cces20 %>%
+  mutate(ideo_num = case_when(ideo5 == "Very Liberal" ~ -2,
+                              ideo5 == "Liberal" ~ -1,
+                              
+                              ideo5 == "Moderate" ~ 0,
+                              ideo5 == "Conservative" ~ 1,
+                              ideo5 == "Very Conservative" ~ 2))
+
+```
+
+The `ideo_num` variable is not a good predictor of turnout:
+
+```{r}
+lm(voted ~ ideo_num, data = cces20) %>% tidy()
+```
+
+## Non-linear relationships  {.smaller}
+
+However, `ideo_num^2` *is* a significant predictor of turnout, because the relationship is non-linear:
+
+```{r}
+mod4 <- lm(voted ~ ideo_num + I(ideo_num^2), 
+           data = cces20)
+tidy(mod4)
+```
+
+Note: It's important to include the quadratic term like this, rather than by adding a new variable equal to `ideo_num^2`, because R needs to know that `ideo_num` and `ideo_num^2` cannot vary independently.
+
+## Predicted values  {.smaller}
+
+Here is our sample regression model:
+
+$$
+\hat{Y}_i = 0.772 - (0.000378 \cdot ideo_i) + (0.0127 \cdot ideo_i^2)
+$$
+
+<br>
+
+For those who are Very Liberal (ideo = -2):
+
+$$
+\hat{Y}_i = 0.772 - (0.000378 \cdot -2) + (0.0127 \cdot 4) = 0.823
+$$
+
+For those who are Moderate (ideo = 0):
+
+$$
+\hat{Y}_i = 0.772 - (0.000378 \cdot 0) + (0.0127 \cdot 0) = 0.772
+$$
+
+For those who are Very Conservative (ideo = 2):
+
+$$
+\hat{Y}_i = 0.772 - (0.000378 \cdot 2) + (0.0127 \cdot 4) = 0.822
+$$
+
+## Predicted values  {.smaller}
+
+Of course, we don't need to do this manually.
+
+We can use `ggpredict()` to give us predicted values for each value of `ideo_num`:
+
+```{r}
+ggpredict(mod4, terms = "ideo_num")
+```
+
+## Practice problems  {.smalller}
+
+1.  How many categories does the variable `race` have?
+2.  How many coefficients will this produce if we include `race` in our model?
+3.  Run a regression of Democratic voting on race.
+4.  What is the reference category?
+5.  Interpret each coefficient.
+6.  Create dummy variables for each category of `race`. Re-run the regression using all of these dummy variables except `White,` instead of using the variable `race`. How do the coefficients compare?
+7.  Re-run the regression, choosing the dummy variables so that `Hispanic` is the omitted category. Interpret the coefficients.
+
+## Practice problems (answers)  {.smaller}
+
+Q1. How many categories does the variable `race` have?
+
+::: {.red2}
+The variable `race` has 5 categories.
+:::
+
+```{r}
+cces20 %>% count(race)
+```
+
+Q2. How many coefficients will this produce if we include `race` in our model?
+
+::: {.red2}
+Including `race` will produce $5-1 = 4$ coefficients.
+:::
+
+## Practice problems (answers)  {.smaller}
+
+Q3. Run a regression of Democratic voting on race.
+
+```{r}
+lm(vote_dem ~ race, data = cces20) %>% tidy()
+```
+
+Q4. What is the reference category?
+
+::: {.red2}
+The reference category is `White`.
+:::
+
+## Practice problems (answers)  {.smaller}
+
+Q5. Interpret each coefficient.
+
+```{r echo = FALSE}
+lm(vote_dem ~ race, data = cces20) %>% tidy()
+```
+
+::: {.red2}
+Being Black (vs White) is associated with a **38.9** percentage point *increase* in the probability of voting Democrat.
+
+Being Hispanic (vs White) is associated with a **12.4** percentage point *increase* in the probability of voting Democrat.
+
+Being in the "Other" race category (vs White) is associated with a **2.5** percentage point *decrease* in the probability of voting Democrat.
+
+Being Asian (vs White) is associated with a **22.3** percentage point *increase* in the probability of voting Democrat.
+:::
+
+## Practice problems (answers)  {.smaller}
+
+Q6. Create dummy variables for each category of `race`. Re-run the regression using all of these dummy variables except `White,` instead of using the variable `race`. How do the coefficients compare?
+
+```{r}
+cces20 <- cces20 %>% 
+  mutate(White = ifelse(race == "White", 1, 0),
+         Black = ifelse(race == "Black", 1, 0),
+         Hispanic = ifelse(race == "Hispanic", 1, 0),
+         Other = ifelse(race == "Other", 1, 0),
+         Asian = ifelse(race == "Asian", 1, 0))
+
+lm(vote_dem ~ Black + Hispanic + Other + Asian, data = cces20) %>% tidy()
+```
+
+::: {.red2}
+Exactly the same results!
+:::
+
+## Practice problems (answers)  {.smaller}
+
+Q7. Re-run the regression, choosing the dummy variables so that `Hispanic` is the omitted category. Interpret the coefficients.
+
+```{r}
+lm(vote_dem ~ White + Black + Other + Asian, data = cces20) %>% tidy()
+```
+
+::: {.red2}
+The coefficients should now be interpreted as the "effect" of being in a given racial category versus being Hispanic.
+:::

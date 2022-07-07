@@ -1,0 +1,538 @@
+---
+title: "Review Session 10"
+author: "Sophie Hill"
+date: "04/08/2022"
+output: ioslides_presentation
+---
+
+```{r setup, include = FALSE}
+
+library(tidyverse)
+library(broom)
+library(ggeffects)
+library(equatiomatic)
+library(tidymodels)
+
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+
+theme_set(theme_bw())
+
+load("hw2.RData")
+
+cces20 <- 
+  cces_pres %>%
+  filter(year == 2020) %>%
+  mutate(
+    vote_dem = case_when(
+      voted_pres_party == "Democratic" ~ 1,
+      voted_pres_party == "Republican" ~ 0,
+      TRUE ~ NA_real_
+    )
+  ) %>%
+  mutate(
+    white = case_when(
+      race == "White" ~ 1,
+      TRUE ~ 0
+      )
+    ) %>%
+  select(age, white, vote_dem) %>%
+  na.omit()
+```
+
+## PSet 3 {.build}
+
+Last one!
+
+**Q1-Q10:** Difference-in-differences (RS9)
+
+*Protip: Read the intro and skim the Card & Krueger paper!*
+
+**Q11-Q14:**
+
+-   Interpreting coefficients (RS7)
+
+-   Omitted variable bias (RS8)
+
+-   Fixed effects (RS9)
+
+**Q15-Q17:** Predicting a numeric outcome (RS10)
+
+**Q18-Q20:** Predicting a binary outcome, logistic regression (RS10)
+
+## Agenda
+
+**Logistic regression**
+
+-   Why?
+
+-   Interpreting coefficients
+
+-   Predicted probabilities
+
+**Prediction**
+
+-   Classification threshold
+
+-   Accuracy, precision, recall
+
+-   For numeric outcomes: RMSE, MAE, MAPE
+
+## Logistic regression: Why?
+
+![](linear_vs_logit.png)
+
+## Logistic regression: R code {.smaller}
+
+```{r}
+# Logistic regression
+glm(vote_dem ~ age + white,
+    data = cces20,
+    family = "binomial") %>% 
+  tidy()
+```
+
+How is this different to linear regression with `lm()`?
+
+-   `glm()` instead of `lm()`
+
+-   `family = "binomial"` tells R that the outcome variable is binary
+
+-   interpretation of the coefficients is different
+
+## Interpreting logistic coefficients
+
+```{r include = FALSE}
+mod_linear <- lm(vote_dem ~ age + white,
+                 data = cces20)
+
+mod_logistic <- glm(vote_dem ~ age + white,
+                    data = cces20,
+                    family = "binomial")
+```
+
+```{r include = FALSE}
+extract_eq(
+  mod_logistic,
+  wrap = TRUE,
+  intercept = "beta",
+  use_coefs = TRUE,
+  coef_digits = 3,
+  font_size = "scriptsize"
+)
+```
+
+Recall that the logit function is defined by:
+
+$$
+\operatorname{logit}(p) = \log \left( \frac{p}{1-p} \right)
+$$
+
+So this is our regression equation:
+
+$$
+\scriptsize
+\begin{aligned}
+\operatorname{logit}\left[ \widehat{P( \operatorname{vote\_dem} = \operatorname{1} )}  \right] &= 2.069 - 0.019(\operatorname{age}) - 0.858(\operatorname{white})
+\end{aligned}
+$$
+
+Or, equivalently:
+
+$$
+\scriptsize
+\begin{aligned}
+\widehat{P( \operatorname{vote\_dem} = \operatorname{1} )} &= \operatorname{logit}^{-1} \left[ 2.069 - 0.019(\operatorname{age}) - 0.858(\operatorname{white}) \right]
+\end{aligned}
+$$
+
+## The S-curve
+
+```{r include = FALSE}
+preds <- ggpredict(mod_logistic, 
+          terms = c("age [-100:200, by = 5]",
+                    "white [0,1]"))
+
+preds_df <- tibble(age = preds$x,
+                   white = preds$group,
+                   pred = preds$predicted)
+
+p2 <- preds_df %>% ggplot(aes(x = age,
+                        group = white,
+                        color = white,
+                        y = pred)) +
+  geom_line() +
+  scale_y_continuous(breaks = c(0, 0.5, 1)) +
+  theme(legend.position = c(0.8, 0.8)) +
+  labs(x = "Age", y = "Predicted probability",
+       title = "Effect of age on probability of voting Democrat",
+       subtitle = "For whites and non-whites")
+```
+
+```{r echo=FALSE, warning=FALSE}
+p2 + xlim(20, 100)
+```
+
+## The S-curve
+
+```{r echo = FALSE}
+p2
+```
+
+## The "divide-by-4" trick
+
+$$
+\scriptsize
+\begin{aligned}
+\operatorname{logit}\left[ \widehat{P( \operatorname{vote\_dem} = \operatorname{1} )}  \right] &= 2.069 - 0.019(\operatorname{age}) - 0.858(\operatorname{white})
+\end{aligned}
+$$
+
+**Useful trick:** Divide a logit coefficient by 4 to get an upper bound of the ppt change in $P(Y_i = 1)$.
+
+$-0.019/4 = -0.005 \hspace{3em} -0.858/4 = -0.215$
+
+-   Increasing **age** by 1 year is associated with no more than a 0.5ppt decrease in the probability of voting democratic.
+
+-   Being **white** (vs non-white) is associated with no more than a 22ppt decrease in the probability of voting democratic.
+
+*Caution: this is just a rough rule-of-thumb. It is more accurate when the outcome probability is close to 0.5 (where the S-curve is the steepest).*
+
+## Change in predicted probabilities
+
+$$
+\scriptsize
+\begin{aligned}
+\operatorname{logit}\left[ \widehat{P( \operatorname{vote\_dem} = \operatorname{1} )}  \right] &= 2.069 - 0.019(\operatorname{age}) - 0.858(\operatorname{white})
+\end{aligned}
+$$
+
+The divide-by-4 rule gives us a rough upper bound. To interpret the coefficient on $X_i$ more precisely, we should compute predicted probabilities at different values of $X_i$.
+
+The effect of a 1-unit change in $X_i$ can vary depending on the values of the other predictors. (This is a non-linear model!) So we also need to pick some sensible values to hold the other predictors constant at.
+
+## Change in predicted probabilities
+
+```{r}
+ggpredict(mod_logistic, 
+          terms = c("age [20:80, by = 10]",
+                    "white [1]"))
+```
+
+## Change in predicted probabilities
+
+```{r}
+ggpredict(mod_logistic, 
+          terms = c("white"))
+```
+
+## Classification
+
+```{r}
+augment(mod_logistic, 
+        cces20,
+        type.predict = "response") %>% 
+  select(1:4) %>%
+  head()
+```
+
+## Choosing the threshold
+
+```{r}
+cces20 <- 
+  augment(mod_logistic, cces20,
+          type.predict = "response") %>%
+  select(1:4) %>%
+  mutate(pred = ifelse(.fitted > 0.5, 1, 0))
+
+head(cces20)
+```
+
+## How good are our predictions?
+
+**Accuracy:** out of all predictions, what % are correct?
+
+$\frac{TP + TN}{TP + FP + TN + FN}$
+
+<br>
+
+**Precision:** out of all *predicted* 1's, what % are correct?
+
+$\frac{TP}{TP + FP}$
+
+<br>
+
+**Recall:** out of all *actual* 1's, what % are correctly predicted?
+
+$\frac{TP}{TP + FN}$
+
+## How good are our predictions?
+
+```{r}
+cces20 %>%
+  summarize(
+    accuracy = sum(vote_dem == pred) / nrow(cces20),
+    precision = sum(vote_dem == 1 & pred == 1) / sum(pred == 1),
+    recall = sum(vote_dem == 1 & pred == 1) / sum(vote_dem == 1)
+  )
+```
+
+## How good are our predictions?
+
+```{r include = FALSE}
+
+cut <- seq(0, 1, by = 0.1)
+
+output <- list()
+
+for (i in 1:length(cut)) {
+  output[[i]] <- cces20 %>%
+    mutate(pred = ifelse(.fitted > cut[i], 1, 0)) %>%
+    summarize(
+      accuracy = sum(vote_dem == pred) / nrow(cces20),
+      precision = sum(vote_dem == 1 & pred == 1) / sum(pred == 1),
+      recall = sum(vote_dem == 1 & pred == 1) / sum(vote_dem == 1)
+    )
+}
+
+pred_plot <- 
+  do.call(bind_rows, output) %>% 
+  mutate(threshold = cut)
+```
+
+```{r echo = FALSE, warning = FALSE}
+my_cols <- c("darkblue", "darkcyan", "hotpink4")
+
+p_preds <- 
+  pred_plot %>%
+  ggplot(aes(x = threshold)) +
+  geom_line(aes(y = accuracy), 
+            color = my_cols[1],
+            lwd = 1.5) +
+  geom_line(aes(y = recall), 
+            color = my_cols[2],
+            lwd = 1.5) +
+  geom_line(aes(y = precision), 
+            color = my_cols[3],
+            lwd = 1.5) + 
+  labs(title = "Predictive performance vs classification threshold",
+                                                        x = "threshold",
+                                                        y = "") +
+  annotate(
+    "text",
+    x = 0.9,
+    y = 0.35,
+    size = 6,
+    color = my_cols[1],
+    label = "Accuracy"
+  ) +
+  annotate(
+    "text",
+    x = 0.15,
+    y = 0.95,
+    size = 6,
+    color = my_cols[2],
+    label = "Recall"
+  ) +
+  annotate(
+    "text",
+    x = 0.85,
+    y = 0.9,
+    size = 6,
+    color = my_cols[3],
+    label = "Precision"
+  )
+
+p_preds
+```
+
+## Intuition check {.build}
+
+For low thresholds, recall is 1. For high thresholds, recall is 0. **Why?**
+
+```{r}
+cces20 %>% select(.fitted) %>% summary()
+```
+
+## Intuition check
+
+```{r echo = FALSE}
+p_preds + 
+  geom_vline(xintercept = 0.3577,
+             lty = "dotted",
+             lwd = 1.5,
+             color = my_cols[2])
+```
+
+## Intuition check {.build}
+
+For low thresholds, accuracy and precision are constant at 0.597. **Why?**
+
+```{r}
+cces20 %>% 
+  summarize(mean_y = mean(vote_dem))
+```
+
+## Intuition check
+
+```{r echo = FALSE}
+p_preds + 
+  geom_hline(yintercept = 0.597,
+             lty = "dotted",
+             lwd = 1.5,
+             color = my_cols[3])
+```
+
+## Predicting a numeric variable
+
+Let's try to predict someone's *age* based on their marital status.
+
+```{r include = FALSE}
+cces <- cces_pres %>%
+  filter(year == 2020,
+         ownhome %in% c("Rent", "Own")) %>%
+  select(age, faminc, marstat, ownhome, pid3) %>%
+  mutate(marstat = as.character(marstat)) %>%
+  mutate(
+    pid3 = case_when(
+      pid3 == "Republican" ~ "Rep",
+      pid3 == "Democrat" ~ "Dem",
+      pid3 == "Independent" ~ "Ind"
+    ),
+    marstat = case_when(marstat == "Single / Never Married" ~ "Single", 
+                        TRUE ~ marstat)) %>%
+  filter(marstat %in% c("Married", "Single", "Divorced")) %>%
+  na.omit()
+```
+
+```{r}
+mod_age1 <- cces %>% 
+  lm(age ~ marstat, 
+     data = .)
+
+tidy(mod_age1)
+```
+
+## Predicting a numeric variable
+
+```{r}
+cces <- augment(mod_age1, cces) %>% 
+  select(age:.fitted) %>%
+  mutate(error = .fitted - age)
+
+head(cces)
+```
+
+## Measures of predictive accuracy
+
+**Root Mean Squared Error (RMSE)**
+
+$\sqrt{\frac{1}{N} \sum_i (Y_i - \hat{Y}_i)^2}$
+
+**Mean Absolute Error (MAE)**
+
+$\frac{1}{N} \sum_i |Y_i - \hat{Y}_i|$
+
+**Mean Absolute Percent Error (MAPE)**
+
+$\frac{1}{N} \sum_i 100 \cdot \frac{|Y_i - \hat{Y}_i|}{Y_i}$
+
+## Measures of predictive accuracy
+
+We can calculate the RMSE, MAE, and MAPE manually:
+
+```{r}
+cces %>%
+  summarize(rmse = sqrt(sum(error^2) / nrow(cces)),
+         mae = sum(abs(error)) / nrow(cces),
+         mape = sum((abs(error)/age) * 100) / nrow(cces)
+  )
+```
+
+## Measures of predictive accuracy
+
+Or we can use the canned functions `rmse()`, `mae()`, `mape()` in the {`tidymodels`} package:
+
+```{r}
+cces %>%
+  summarize(rmse = rmse(cces, truth = age, estimate = .fitted)$.estimate,
+         mae = mae(cces, truth = age, estimate = .fitted)$.estimate,
+         mape = mape(cces, truth = age, estimate = .fitted)$.estimate
+  )
+```
+
+## Improving our model
+
+What if we include home ownership (`ownhome`) and household income (`faminc`) in our model too?
+
+```{r}
+mod_age2 <- cces %>% 
+  lm(age ~ marstat + ownhome + faminc, 
+     data = .)
+
+tidy(mod_age2)
+```
+
+Do you think the RMSE, MAE, MAPE will be smaller or larger?
+
+## Comparing two models
+
+Initial model with just marital status as a predictor:
+
+```{r echo = FALSE}
+augment(mod_age1, cces) %>% 
+  select(age:.fitted) %>%
+  mutate(error = .fitted - age) %>%
+  summarize(rmse = rmse(., truth = age, estimate = .fitted)$.estimate,
+         mae = mae(., truth = age, estimate = .fitted)$.estimate,
+         mape = mape(., truth = age, estimate = .fitted)$.estimate
+  )
+```
+
+New model with home ownership and family income added:
+
+```{r echo = FALSE}
+augment(mod_age2, cces) %>% 
+  select(age:.fitted) %>%
+  mutate(error = .fitted - age) %>%
+  summarize(rmse = rmse(., truth = age, estimate = .fitted)$.estimate,
+         mae = mae(., truth = age, estimate = .fitted)$.estimate,
+         mape = mape(., truth = age, estimate = .fitted)$.estimate
+  )
+```
+
+## Test vs training set
+
+Of course, if we were really interested in the predictive power of our model we should look at how it performs on *new data* - i.e. data it was not trained on.
+
+```{r}
+
+cces <-
+  cces %>%
+  mutate(test = sample(
+    x = c(0, 1),
+    size = nrow(cces),
+    replace = TRUE
+  ))
+
+cces_split <- cces %>% group_by(test) %>% group_split()
+cces_train <- cces_split[[1]]
+cces_test <- cces_split[[2]]
+```
+
+## Test vs training set
+
+```{r}
+
+mod_age2 <- cces_train %>%
+  lm(age ~ marstat + ownhome + faminc,
+     data = .)
+
+cces_test %>%
+  mutate(.fitted = predict(mod_age2, .),
+         error = .fitted - age) %>%
+  summarize(
+    rmse = rmse(., truth = age, estimate = .fitted)$.estimate,
+    mae = mae(., truth = age, estimate = .fitted)$.estimate,
+    mape = mape(., truth = age, estimate = .fitted)$.estimate
+  )
+```
