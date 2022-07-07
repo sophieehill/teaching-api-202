@@ -1,0 +1,278 @@
+country,region,year,tfr,w.if,m.if,percent.ed
+Afghanistan,Asia,2015,5.3,5.6,6.2,16.5
+Albania,Middle East and North Africa,2017,1.8,2.4,2.3,99.1
+Albania,Middle East and North Africa,2008,1.6,2.6,2.6,99.7
+Angola,Africa,2015,6.2,4.9,5.9,77.9
+Armenia,Middle East and North Africa,2015,1.7,2.6,2.7,99.9
+Armenia,Middle East and North Africa,2010,1.7,2.5,2.7,99.9
+Armenia,Middle East and North Africa,2005,1.7,2.6,2.8,99.9
+Armenia,Middle East and North Africa,2000,1.7,2.7,NA,99.9
+Azerbaijan,Middle East and North Africa,2006,2,2.5,2.7,98.9
+Bangladesh,Asia,2014,2.3,2.2,NA,75.1
+Bangladesh,Asia,2011,2.3,2.2,NA,72.3
+Bangladesh,Asia,2007,2.7,2.3,NA,65.9
+Bangladesh,Asia,2004,3,2.4,2.3,58.4
+Bangladesh,Asia,1999,3.3,2.5,NA,53.6
+Bangladesh,Asia,1996,3.3,2.5,2.4,45.2
+Bangladesh,Asia,1993,3.4,2.5,NA,41.8
+Benin,Africa,2017,5.7,5.1,7,44.8
+Benin,Africa,2011,4.9,4.6,5.7,40.5
+Benin,Africa,2006,5.7,4.9,5.9,36.3
+Benin,Africa,2001,5.6,4.9,6.3,35.9
+Benin,Africa,1996,6,5.5,7.1,29.2
+Bolivia,Latin America and Caribbean,2008,3.5,2.4,2.7,95.4
+Bolivia,Latin America and Caribbean,2003,3.8,2.4,2.8,93.8
+Bolivia,Latin America and Caribbean,1998,4.2,2.6,2.9,91.9
+Bolivia,Latin America and Caribbean,1994,4.8,2.5,NA,87.9
+Bolivia,Latin America and Caribbean,1989,5,2.6,NA,NA
+Botswana,Africa,1988,4.9,4.7,NA,NA
+Brazil,Latin America and Caribbean,1996,2.5,2.3,2.6,94.8
+Brazil,Latin America and Caribbean,1986,3.4,2.8,NA,NA
+Burkina Faso,Africa,2010,6,5.5,6.3,26.1
+Burkina Faso,Africa,2003,5.9,5.6,6.1,19.7
+Burkina Faso,Africa,1998,6.4,5.7,6.6,14.2
+Burkina Faso,Africa,1993,6.5,5.7,6.4,17.1
+Burundi,Africa,2016,5.5,3.9,3.7,63.8
+Burundi,Africa,2010,6.4,4.2,4.1,55.2
+Burundi,Africa,1987,6.9,5.3,NA,NA
+Cambodia,Asia,2014,2.7,3.1,3.1,87.2
+Cambodia,Asia,2010,3,3.1,3.1,84.1
+Cambodia,Asia,2005,3.4,3.3,NA,80.6
+Cambodia,Asia,2000,3.8,3.6,NA,71.7
+Cameroon,Africa,2011,5.1,5.5,6.4,80
+Cameroon,Africa,2004,5,5.7,NA,77.6
+Cameroon,Africa,1998,4.8,6,6.9,71.9
+Cameroon,Africa,1991,5.8,6.8,10.1,59.8
+Central African Republic,Africa,1994,5.1,6.4,7.6,48.4
+Chad,Africa,2014,6.4,8.2,11.4,37.6
+Chad,Africa,2004,6.3,8.9,11.6,25.2
+Chad,Africa,1996,6.4,8.3,13,23
+Colombia,Latin America and Caribbean,2015,2,2.2,2.5,98.6
+Colombia,Latin America and Caribbean,2010,2.1,2.2,NA,98.3
+Colombia,Latin America and Caribbean,2005,2.4,2.2,NA,97.3
+Colombia,Latin America and Caribbean,2000,2.6,2.3,NA,96.7
+Colombia,Latin America and Caribbean,1995,3,2.5,NA,96.2
+Colombia,Latin America and Caribbean,1990,2.8,2.6,NA,95.8
+Colombia,Latin America and Caribbean,1986,3.2,2.7,NA,NA
+Comoros,Africa,2012,4.3,5.3,5.7,69
+Comoros,Africa,1996,4.6,5.3,5.4,46.4
+Congo,Africa,2011,5.1,5,5.1,94.2
+Congo,Africa,2005,4.8,5.1,5.2,92.8
+Congo Democratic Republic,Africa,2013,6.6,6.1,7,84.6
+Congo Democratic Republic,Africa,2007,6.3,6.3,7,79.2
+Cote d'Ivoire,Africa,2011,5,5.2,5.7,46.8
+Cote d'Ivoire,Africa,1998,5.2,5.4,5.9,44.1
+Cote d'Ivoire,Africa,1994,5.3,5.5,5.7,39.6
+Dominican Republic,Latin America and Caribbean,2013,2.5,2.8,NA,98
+Dominican Republic,Latin America and Caribbean,2007,2.4,3,NA,96.6
+Dominican Republic,Latin America and Caribbean,2002,3,3.1,3.5,96.2
+Dominican Republic,Latin America and Caribbean,1999,2.7,3,3.7,97.3
+Dominican Republic,Latin America and Caribbean,1996,3.2,3.2,3.3,93
+Dominican Republic,Latin America and Caribbean,1991,3.3,3.1,NA,94.3
+Dominican Republic,Latin America and Caribbean,1986,3.7,3.4,NA,NA
+Ecuador,Latin America and Caribbean,1987,4.2,3,NA,NA
+Egypt,Middle East and North Africa,2014,3.5,3,NA,76
+Egypt,Middle East and North Africa,2008,3,2.9,NA,67.9
+Egypt,Middle East and North Africa,2005,3.1,2.9,NA,65.4
+Egypt,Middle East and North Africa,2003,3.2,2.8,NA,62.3
+Egypt,Middle East and North Africa,2000,3.5,2.9,NA,56.8
+Egypt,Middle East and North Africa,1995,3.6,2.8,NA,56.3
+Egypt,Middle East and North Africa,1992,3.9,2.9,NA,51.6
+Egypt,Middle East and North Africa,1988,4.5,2.9,NA,NA
+El Salvador,Latin America and Caribbean,1985,4.2,3.6,NA,NA
+Eritrea,Africa,2002,4.8,5.8,NA,49.9
+Eritrea,Africa,1995,6.1,6,6.5,34.1
+Ethiopia,Africa,2016,4.6,4.5,4.6,52.2
+Ethiopia,Africa,2011,4.8,4.3,4.8,49.2
+Ethiopia,Africa,2005,5.4,4.5,5,34.1
+Ethiopia,Africa,2000,5.5,5.3,6.1,24.8
+Gabon,Africa,2012,4.1,4.6,5.1,95.6
+Gabon,Africa,2000,4.2,4.9,5.6,94.3
+Gambia,Africa,2013,5.6,6,7.7,53.5
+Ghana,Africa,2014,4.2,4.3,4.5,80.9
+Ghana,Africa,2008,4,4.3,4.5,78.8
+Ghana,Africa,2003,4.4,4.4,4.7,71.8
+Ghana,Africa,1998,4.4,4.3,4.4,70.9
+Ghana,Africa,1993,5.2,4.4,4.6,65
+Ghana,Africa,1988,6.4,5.3,NA,NA
+Guatemala,Latin America and Caribbean,2014,3.1,3.3,3.2,85.8
+Guatemala,Latin America and Caribbean,1998,5,3.4,NA,74.7
+Guatemala,Latin America and Caribbean,1995,5.1,3.6,NA,71.7
+Guatemala,Latin America and Caribbean,1987,5.5,3.8,NA,NA
+Guinea,Africa,2012,5.1,5.8,7,33
+Guinea,Africa,2005,5.7,5.6,6.9,22.5
+Guinea,Africa,1999,5.5,5.7,6.6,19.6
+Guyana,Latin America and Caribbean,2009,2.8,2.9,3.3,98.6
+Haiti,Latin America and Caribbean,2016,3,2.8,2.8,86.7
+Haiti,Latin America and Caribbean,2012,3.5,2.8,2.8,85.2
+Haiti,Latin America and Caribbean,2005,3.9,3,3,76.8
+Haiti,Latin America and Caribbean,2000,4.7,3.1,3.2,71.1
+Haiti,Latin America and Caribbean,1994,4.8,3.3,3.4,64.4
+Honduras,Latin America and Caribbean,2011,2.9,2.8,3.3,96.1
+Honduras,Latin America and Caribbean,2005,3.3,3,NA,93.8
+India,Asia,2015,2.2,2.2,2.2,72.5
+India,Asia,2005,2.7,2.3,2.2,59.4
+India,Asia,1998,2.8,2.6,NA,46.6
+India,Asia,1992,3.4,2.9,NA,38.5
+Indonesia,Asia,2012,2.6,2.6,2.8,96.7
+Indonesia,Asia,2007,2.6,2.8,2.9,93.1
+Indonesia,Asia,2002,2.6,2.9,2.9,92.1
+Indonesia,Asia,1997,2.8,2.9,NA,86.8
+Indonesia,Asia,1994,2.9,2.9,NA,84.1
+Indonesia,Asia,1991,3,3.1,NA,80.9
+Indonesia,Asia,1987,3.1,3.2,NA,NA
+Jordan,Middle East and North Africa,2017,2.7,3.8,3.3,97.8
+Jordan,Middle East and North Africa,2012,3.5,3.9,NA,97.7
+Jordan,Middle East and North Africa,2009,3.8,4.2,NA,97.2
+Jordan,Middle East and North Africa,2007,3.6,3.9,NA,96.2
+Jordan,Middle East and North Africa,2002,3.7,4.2,NA,NA
+Jordan,Middle East and North Africa,1997,4.4,4.2,NA,90.9
+Jordan,Middle East and North Africa,1990,5.6,4.4,NA,76.5
+Kazakhstan,Asia,1999,2,2.8,3.2,99.6
+Kazakhstan,Asia,1995,2.5,2.9,NA,99.9
+Kenya,Africa,2014,3.9,3.6,3.9,93
+Kenya,Africa,2008,4.6,3.8,4,91.1
+Kenya,Africa,2003,4.9,3.9,4.2,87.3
+Kenya,Africa,1998,4.7,3.8,4,88.5
+Kenya,Africa,1993,5.4,3.7,3.8,82.1
+Kenya,Africa,1989,6.7,4.4,NA,NA
+Kyrgyz Republic,Asia,2012,3.6,3.9,4.1,99.9
+Kyrgyz Republic,Asia,1997,3.4,3.7,NA,99.9
+Lesotho,Africa,2014,3.3,2.6,3,99
+Lesotho,Africa,2009,3.3,2.8,3.2,98.8
+Lesotho,Africa,2004,3.5,3,3.4,98
+Liberia,Africa,2013,4.7,4.8,5,66.8
+Liberia,Africa,2007,5.2,5,5.6,57.6
+Liberia,Africa,1986,6.7,6,NA,NA
+Madagascar,Africa,2008,4.8,4.7,5.1,81.5
+Madagascar,Africa,2003,5.2,4.8,5.3,77.6
+Madagascar,Africa,1997,6,5.3,NA,78.8
+Madagascar,Africa,1992,6.1,5.5,NA,80.4
+Malawi,Africa,2015,4.4,3.7,3.7,87.9
+Malawi,Africa,2010,5.7,4,3.9,84.8
+Malawi,Africa,2004,6,4.1,3.9,77.4
+Malawi,Africa,2000,6.3,4.2,4.1,73
+Malawi,Africa,1992,6.7,5.1,5.1,52.8
+Maldives,Asia,2016,2.1,2.8,2.9,95.8
+Maldives,Asia,2009,2.5,3.1,3.5,76.6
+Mali,Africa,2012,6.1,5.9,7.7,24.2
+Mali,Africa,2006,6.6,6.3,7.4,21.8
+Mali,Africa,2001,6.8,6.2,7.4,20
+Mali,Africa,1995,6.7,6.6,7.9,18.9
+Mali,Africa,1987,7.1,6.9,NA,NA
+Mauritania,Africa,2000,4.5,6.2,7.4,69.5
+Mexico,Latin America and Caribbean,1987,4,3,NA,NA
+Morocco,Middle East and North Africa,2003,2.5,2.9,NA,50
+Morocco,Middle East and North Africa,1992,4,3.4,NA,36.6
+Morocco,Middle East and North Africa,1987,4.6,3.7,NA,NA
+Mozambique,Africa,2011,5.9,4.8,5.4,68.8
+Mozambique,Africa,2003,5.5,5.3,5.8,58.9
+Mozambique,Africa,1997,5.2,5.9,7.1,57.1
+Myanmar,Asia,2015,2.3,2.5,2.8,87.5
+Namibia,Africa,2013,3.6,3.2,3.9,95.4
+Namibia,Africa,2006,3.6,3.1,3.9,93.4
+Namibia,Africa,2000,4.2,3.3,4.2,90.5
+Namibia,Africa,1992,5.4,5,NA,85.5
+Nepal,Asia,2016,2.3,2.1,2.3,66.7
+Nepal,Asia,2011,2.6,2.1,2.3,60.2
+Nepal,Asia,2006,3.1,2.3,2.4,46.9
+Nepal,Asia,2001,4.1,2.6,2.7,28
+Nepal,Asia,1996,4.6,2.9,NA,20
+Nicaragua,Latin America and Caribbean,2001,3.2,2.9,NA,85.6
+Nicaragua,Latin America and Caribbean,1998,3.6,2.8,3.1,84.5
+Niger,Africa,2012,7.6,9.2,10.9,20
+Niger,Africa,2006,7,8.8,10.5,16.5
+Niger,Africa,1998,7.2,8.2,10.4,15.2
+Niger,Africa,1992,7,8.2,12,10.7
+Nigeria,Africa,2013,5.5,6.5,8,62.2
+Nigeria,Africa,2008,5.7,6.1,7.2,64.2
+Nigeria,Africa,2003,5.7,6.7,8.3,58.4
+Nigeria,Africa,1990,6,5.8,NA,42.8
+Pakistan,Asia,2017,3.6,3.9,4.3,50.8
+Pakistan,Asia,2012,3.8,4.1,4.3,42.9
+Pakistan,Asia,2006,4.1,4.1,NA,35
+Pakistan,Asia,1990,4.9,4.1,4.2,20.8
+Paraguay,Latin America and Caribbean,1990,4.7,3.9,NA,97.3
+Peru,Latin America and Caribbean,2012,2.6,2.3,NA,97.6
+Peru,Latin America and Caribbean,2011,2.6,2.3,NA,97.4
+Peru,Latin America and Caribbean,2010,2.5,2.3,NA,97.6
+Peru,Latin America and Caribbean,2009,2.6,2.3,NA,97.2
+Peru,Latin America and Caribbean,2007,2.5,2.4,NA,96.9
+Peru,Latin America and Caribbean,2004,2.6,2.4,NA,96.4
+Peru,Latin America and Caribbean,2000,2.8,2.4,NA,94.9
+Peru,Latin America and Caribbean,1996,3.5,2.5,2.6,93.8
+Peru,Latin America and Caribbean,1991,3.5,2.5,NA,93.9
+Peru,Latin America and Caribbean,1986,4.1,2.6,NA,NA
+Philippines,Asia,2017,2.7,2.7,NA,99.2
+Philippines,Asia,2013,3,2.8,NA,98.8
+Philippines,Asia,2008,3.3,2.8,NA,98.8
+Philippines,Asia,2003,3.5,3,3.4,98.6
+Philippines,Asia,1998,3.7,3.2,NA,98.5
+Philippines,Asia,1993,4.1,3.2,NA,97.9
+Rwanda,Africa,2014,4.2,3.4,3,87.7
+Rwanda,Africa,2010,4.6,3.3,2.8,84.5
+Rwanda,Africa,2007,5.5,3.3,NA,77.8
+Rwanda,Africa,2005,6.1,4.3,3.9,76.6
+Rwanda,Africa,2000,5.8,4.9,4.8,70.6
+Rwanda,Africa,1992,6.2,4.2,4.2,62
+Sao Tome and Principe,Africa,2008,4.9,3.5,3.8,94.1
+Senegal,Africa,2017,4.6,5.3,7,53.8
+Senegal,Africa,2016,4.7,5.2,6.9,51.4
+Senegal,Africa,2015,4.9,5.2,7.1,49.1
+Senegal,Africa,2014,5,5.2,7.5,49
+Senegal,Africa,2012,5.3,5.3,NA,45.2
+Senegal,Africa,2010,5,5.2,7.3,42.1
+Senegal,Africa,2005,5.3,5.4,6.9,40.4
+Senegal,Africa,1997,5.7,5.3,6.9,33.4
+Senegal,Africa,1992,6,5.9,7.7,27
+Senegal,Africa,1986,6.4,6.8,NA,NA
+Sierra Leone,Africa,2013,4.9,4.9,5.4,44.2
+Sierra Leone,Africa,2008,5.1,5,5.5,34.1
+South Africa,Africa,2016,2.6,2.6,3.2,98
+South Africa,Africa,1998,2.9,2.9,NA,93.2
+Sri Lanka,Asia,1987,2.7,3.1,NA,NA
+Sudan,Africa,1989,4.7,5.9,NA,NA
+Tajikistan,Asia,2017,3.8,3.4,NA,97.9
+Tajikistan,Asia,2012,3.8,3.6,NA,98
+Tanzania,Africa,2015,5.2,4.7,5.1,85.3
+Tanzania,Africa,2010,5.4,4.9,4.8,80.9
+Tanzania,Africa,2004,5.7,5,5.3,75.8
+Tanzania,Africa,1999,5.6,5.3,5.3,72.9
+Tanzania,Africa,1996,5.8,5.5,5.6,71.5
+Tanzania,Africa,1991,6.2,6.1,6.3,66.2
+Thailand,Asia,1987,2.2,2.8,NA,NA
+Timor-Leste,Asia,2016,4.2,3.7,3.3,78.3
+Timor-Leste,Asia,2009,5.7,5,5,70.7
+Togo,Africa,2013,4.8,4.3,4.7,68.2
+Togo,Africa,1998,5.2,4.5,5.1,51.9
+Togo,Africa,1988,6.4,5.3,NA,NA
+Trinidad and Tobago,Latin America and Caribbean,1987,3.1,2.9,NA,NA
+Tunisia,Middle East and North Africa,1988,4.2,3.5,NA,NA
+Turkey,Middle East and North Africa,2003,2.2,2.5,NA,83.6
+Turkey,Middle East and North Africa,1998,2.6,2.4,2.6,83.3
+Turkey,Middle East and North Africa,1993,2.5,2.4,NA,72.9
+Turkmenistan,Asia,2000,2.9,3.3,NA,99
+Uganda,Africa,2016,5.4,4.8,5.4,90.4
+Uganda,Africa,2011,6.2,4.8,5.7,87.1
+Uganda,Africa,2006,6.7,5,5.7,80.7
+Uganda,Africa,2000,6.9,4.8,5.5,78.1
+Uganda,Africa,1995,6.9,5.3,5.7,69.4
+Uganda,Africa,1988,7.4,6.5,NA,NA
+Ukraine,Middle East and North Africa,2007,1.2,2,2,100
+Uzbekistan,Asia,1996,3.3,3.6,NA,99.9
+Vietnam,Asia,2002,1.9,2.4,NA,93.6
+Vietnam,Asia,1997,2.3,2.4,NA,95.2
+Yemen,Middle East and North Africa,2013,4.4,4.3,NA,NA
+Yemen,Middle East and North Africa,1997,6.5,4.5,NA,18.5
+Yemen,Middle East and North Africa,1991,7.7,5.4,NA,11
+Zambia,Africa,2013,5.3,4.7,5,91.6
+Zambia,Africa,2007,6.2,4.6,4.9,89.6
+Zambia,Africa,2001,5.9,4.7,5.1,87.9
+Zambia,Africa,1996,6.1,5.3,5.7,86.7
+Zambia,Africa,1992,6.5,5.8,NA,83.6
+Zimbabwe,Africa,2015,4,3.9,4.5,98.7
+Zimbabwe,Africa,2010,4.1,3.8,4.3,97.7
+Zimbabwe,Africa,2005,3.8,3.8,4.5,95.7
+Zimbabwe,Africa,1999,4,3.9,4,93.3
+Zimbabwe,Africa,1994,4.3,4.3,4.2,88.9
+Zimbabwe,Africa,1988,5.4,4.9,NA,NA
